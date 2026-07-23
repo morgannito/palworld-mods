@@ -50,9 +50,15 @@ players included.
 | `DungeonDeluxe_P.pak` | Grade_02 end-of-dungeon chests ×4 in the lottery |
 | `CaptureScholar_P.pak` | Capture bonus XP ×3 |
 | `PondDeluxe_P.pak` | Fish pond: rare pals (dragons…) ×4 |
+| `EarlyLearner_P.pak` | Pals learn their attacks at half the level (5772 entries ÷2) |
+| `EpicBosses_P.pak` | All 322 bosses have ×4 HP — real 15-minute coop fights (raid bosses untouched) |
+| `LegendarySafari_P.pak` | Sky Island (lv 68-69) becomes a wild legendary reserve (8-species pool) |
 
-`LootFiesta_P.pak` is a combined build (jackpot-chests + lightning-expeditions
-+ boosted-relics) — see conflicts below.
+**Combined paks** (conflict-free bundles, built with `--combine`):
+`LootComplete_P.pak` (all 5 loot mods), `WildSpawns_P.pak` (depresso-world +
+legendary-safari), `PalStats_P.pak` (epic-bosses + fast-haulers),
+`LootFiesta_P.pak` (legacy, 3 loot mods). Load a combined pak **instead of**
+its components.
 
 ## Pipeline
 
@@ -90,6 +96,10 @@ python3 scripts/build.py --conflicts     # table → mods map (deploy planning)
 python3 scripts/build.py --combine LootFiesta jackpot-chests lightning-expeditions boosted-relics
 # end-to-end check of every pak in dist/ (unpack, decode, diff vs vanilla, per-mod asserts):
 python3 scripts/verify.py
+# after a game update — re-extract, refresh usmap, rebuild, verify:
+scripts/update.sh
+# deploy a batch to the server (backup + safe restart + auto-rollback; requires DEPLOY=yes):
+DEPLOY=yes scripts/deploy.sh dist/BetterBases_P.pak dist/BiggerBases_P.pak
 ```
 
 Shared tables to watch: `DT_ItemLotteryDataTable` (jackpot-chests,

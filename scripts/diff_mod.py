@@ -34,18 +34,71 @@ def prop_map(row_value):
 
 
 def same(a, b):
-    """Égalité tolérante : 'EPalFoo::Bar' et 'Bar' sont le même enum sérialisé
-    différemment selon la version d'UAssetAPI qui a produit l'asset."""
+    """Égalité tolérante, récursive : 'EPalFoo::Bar' ≡ 'Bar' (enums), et les
+    structs/arrays UAssetAPI sont comparés par leur contenu sémantique."""
     if a == b:
         return True
     if isinstance(a, str) and isinstance(b, str):
         return a.split("::")[-1] == b.split("::")[-1]
+    if isinstance(a, dict) and isinstance(b, dict):
+        if a.get("Name") != b.get("Name"):
+            return False
+        return same(a.get("Value"), b.get("Value"))
+    if isinstance(a, list) and isinstance(b, list):
+        return len(a) == len(b) and all(same(x, y) for x, y in zip(a, b))
     return False
 
 
+def deep_changes(a, b, path=""):
+    """Liste (chemin, avant, après) des feuilles qui diffèrent dans des
+    structures UAssetAPI imbriquées (structs dans structs, arrays…)."""
+    if same(a, b):
+        return []
+    if isinstance(a, dict) and isinstance(b, dict) and a.get("Name") == b.get("Name"):
+        return deep_changes(a.get("Value"), b.get("Value"),
+                            f"{path}.{a.get('Name')}" if path else str(a.get("Name")))
+    if isinstance(a, list) and isinstance(b, list) and len(a) == len(b):
+        out = []
+        for i, (x, y) in enumerate(zip(a, b)):
+            sub = f"{path}[{i}]"
+            if isinstance(x, dict) and x.get("Name") not in (None, path.split(".")[-1]):
+                sub = f"{path}.{x['Name']}" if path else str(x.get("Name"))
+            out.extend(deep_changes(x, y, sub))
+        return out
+    return [(path or "?", a, b)]
+
+
+def _compact(v):
+    """Struct UAssetAPI → forme lisible {Name: Value} ; scalaires inchangés."""
+    if isinstance(v, dict):
+        if "Name" in v and "Value" in v:
+            return {v["Name"]: _compact(v["Value"])}
+        return {k: _compact(x) for k, x in v.items() if k in ("Name", "Value")} or v
+    if isinstance(v, list):
+        merged = {}
+        plain = []
+        for x in v:
+            c = _compact(x)
+            if isinstance(c, dict) and len(c) == 1:
+                merged.update(c)
+            else:
+                plain.append(c)
+        return merged if merged and not plain else plain or merged
+    return v
+
+
 def fmt(v, limit=60):
+    v = _compact(v)
     s = json.dumps(v, ensure_ascii=False) if isinstance(v, (dict, list)) else str(v)
     return s if len(s) <= limit else s[:limit] + "…"
+
+
+NOISY = ("BodyInstance", "CollisionResponses", "RelativeScale", "CanCharacterStepUpOn")
+
+
+def sort_leaves(leaves):
+    """Gameplay d'abord, plomberie moteur (collisions…) ensuite."""
+    return sorted(leaves, key=lambda t: any(n in t[0] for n in NOISY))
 
 
 def diff_datatable(vanilla, modded, out):
@@ -95,11 +148,47 @@ def diff_blueprint(vanilla, modded, out):
     if vc is None or mc is None:
         out.append("- pas de CDO comparable (asset non-datatable, non-BP ou structure inattendue)")
         return
-    fields = [(f, vc.get(f), mc.get(f)) for f in mc if not same(vc.get(f), mc.get(f))]
-    if not fields:
-        out.append("- CDO identique (les changements sont ailleurs : bytecode, structs profonds…)")
-    for f, a, b in fields[:20]:
-        out.append(f"  - `{f}` : {fmt(a, 100)} → {fmt(b, 100)}")
+    leaves = []
+    for f in mc:
+        if not same(vc.get(f), mc.get(f)):
+            leaves.extend(deep_changes(vc.get(f), mc.get(f), f))
+    other = _diff_other_exports(vanilla, modded)
+    if not leaves and not other:
+        out.append("- CDO identique (changements dans le bytecode ou hors exports UObject)")
+    leaves = sort_leaves(leaves)
+    for path, a, b in leaves[:25]:
+        out.append(f"  - `{path}` : {fmt(a, 90)} → {fmt(b, 90)}")
+    if len(leaves) > 25:
+        out.append(f"  - … +{len(leaves) - 25} autres feuilles modifiées")
+    out.extend(other)
+
+
+def _diff_other_exports(vanilla, modded, limit=10):
+    """Exports non-CDO appariés par ObjectName (composants de BP, sous-objets)."""
+    def emap(asset):
+        return {str(e.get("ObjectName")): e for e in asset["Exports"]
+                if not str(e.get("ObjectName", "")).startswith("Default__")
+                and isinstance(e.get("Data"), list)}
+    ve, me = emap(vanilla), emap(modded)
+    per_export = []
+    for name in me:
+        if name not in ve:
+            continue
+        vp, mp = prop_map(ve[name]["Data"]), prop_map(me[name]["Data"])
+        leaves = []
+        for f in mp:
+            if not same(vp.get(f), mp.get(f)):
+                leaves.extend(deep_changes(vp.get(f), mp.get(f), f))
+        if leaves:
+            signal = sum(1 for p, _, _ in leaves if not any(n in p for n in NOISY))
+            per_export.append((signal, name, sort_leaves(leaves)))
+    out = []
+    for signal, name, leaves in sorted(per_export, key=lambda t: -t[0]):
+        for path, a, b in leaves[:limit]:
+            out.append(f"  - `{name}.{path}` : {fmt(a, 90)} → {fmt(b, 90)}")
+        if len(leaves) > limit:
+            out.append(f"  - `{name}` : … +{len(leaves) - limit} feuilles (surtout plomberie collisions)")
+    return out[:limit * 4]
 
 
 def analyze(pak_path, report):
