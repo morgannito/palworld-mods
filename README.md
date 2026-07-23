@@ -29,6 +29,11 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `CheapStatues_P.pak` | Statues de Pouvoir : moitié moins de reliques par rang |
 | `ItemShopPimped_P.pak` | Boutiques des villages : + sphères Tera, pierres IV, diamants, clés or (prix salés) |
 | `DepressoWorld_P.pak` | La zone de départ ne spawn QUE des Depresso. Zéro utilité, 100 % meme |
+| `CombatPlus_P.pak` | Cooldowns des 384 attaques -40 %, attaques faibles (<125) +30 % |
+| `ArenaChampion_P.pak` | Récompenses de l'arène solo ×5 (first clear et reclears) |
+| `DungeonDeluxe_P.pak` | Coffres Grade_02 de fin de donjon ×4 dans la loterie |
+| `CaptureScholar_P.pak` | Bonus d'XP de capture ×3 |
+| `PondDeluxe_P.pak` | Mare à poissons : pals rares (dragons…) ×4 |
 
 Chaque mod patche une ou plusieurs DataTables :
 
