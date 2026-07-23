@@ -1,4 +1,7 @@
-"""Construction pas chère — matériaux des 498 constructions ÷5, conso d'énergie des machines ÷2."""
+"""Construction pas chère et flexible — matériaux des 498 constructions ÷5,
+conso d'énergie des machines ÷2, et seuil de connexion des pièces x2.5
+(la tolérance de snap responsable des erreurs « not connected to structure »,
+plainte récurrente des forums)."""
 from palmod import get, rows, set_
 
 PAK_NAME = "CheapBuilding"
@@ -10,6 +13,7 @@ TABLES = [
 MATERIAL_DIV = 5
 MATERIAL_SLOTS = 4
 ENERGY_DIV = 2
+NEIGHBOR_MULT = 2.5
 
 
 def patch(assets, extra):
@@ -24,6 +28,14 @@ def patch(assets, extra):
             try:
                 conso = float(conso)
             except (TypeError, ValueError):
-                continue  # "+0" : pas de conso, on ne touche pas
-            if conso > 0:
+                conso = None  # "+0" : pas de conso, on ne touche pas
+            if conso and conso > 0:
                 set_(a, r, "ConsumeEnergySpeed", conso / ENERGY_DIV)
+
+            thr = get(r, "InstallNeighborThreshold")
+            try:
+                thr = float(thr)
+            except (TypeError, ValueError):
+                continue
+            if thr > 0:
+                set_(a, r, "InstallNeighborThreshold", thr * NEIGHBOR_MULT)

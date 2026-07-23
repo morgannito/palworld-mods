@@ -20,7 +20,8 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `ExpressFriendship_P.pak` | Seuils d'amitié ÷5 (rangs négatifs aussi : pardon plus rapide) |
 | `MassiveOutbreaks_P.pak` | Hordes d'outbreak ×3 (cap 30), niveaux +3 — 9 biomes |
 | `BetterBases_P.pak` | Bases : ouvriers ×2/niveau (cap 50), 4 bases dès lv15, zéro maladie ni pétage de plombs, cultures ÷5/×3, machines ×5, skill fruits rares ×2-3 |
-| `CheapBuilding_P.pak` | Matériaux des 498 constructions ÷5, conso électrique des machines ÷2 |
+| `CheapBuilding_P.pak` | Matériaux des 498 constructions ÷5, conso électrique ÷2, snap de connexion ×2.5 (adieu « not connected ») |
+| `FastHaulers_P.pak` | TransportSpeed ×2 pour les 753 pals — le portage à la base cesse d'être un supplice |
 
 Chaque mod patche une ou plusieurs DataTables :
 
