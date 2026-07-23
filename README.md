@@ -22,6 +22,7 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `BetterBases_P.pak` | Bases : ouvriers ×2/niveau (cap 50), 4 bases dès lv15, zéro maladie ni pétage de plombs, cultures ÷5/×3, machines ×5, skill fruits rares ×2-3 |
 | `CheapBuilding_P.pak` | Matériaux des 498 constructions ÷5, conso électrique ÷2, snap de connexion ×2.5 (adieu « not connected ») |
 | `FastHaulers_P.pak` | TransportSpeed ×2 pour les 753 pals — le portage à la base cesse d'être un supplice |
+| `FastProgress_P.pak` | Recherches labo ÷5 (travail + matériaux), chirurgie des passifs ÷5, points de technologie ÷2 |
 
 Chaque mod patche une ou plusieurs DataTables :
 
