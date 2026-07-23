@@ -7,7 +7,7 @@
 ![Palworld 1.0](https://img.shields.io/badge/Palworld-v1.0.1.100619-blue)
 ![Server](https://img.shields.io/badge/server-Linux%20%7C%20no%20UE4SS-orange)
 
-**36 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
+**38 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
 datatable/Blueprint patches that work on the **native Linux binary** (the one
 thing UE4SS mods can't do), plus the **full reproducible pipeline** to build
 your own.
@@ -59,10 +59,12 @@ players included.
 | `FrequentVisitors_P.pak` | Wandering merchants visit your base from grade 1 (was 7), ×2 weight |
 | `NightTerrors_P.pak` | At night, ~270 extra spawners wake up with _Dark variants +8 levels — sleeping becomes a strategy |
 | `ArenaAllStars_P.pak` | The 43 arena opponents field remixed legendary/_Dark teams, maxed talents |
+| `TowerTitans_P.pak` | The 21 tower bosses double their HP (×40 → ×80): marathon sieges |
+| `CheapSouls_P.pak` | Pal enhancement soul costs ÷2 across all 20 ranks |
 
 **Combined paks** (conflict-free bundles, built with `--combine`):
 `LootComplete_P.pak` (all 5 loot mods), `WildSpawns_P.pak` (depresso-world +
-legendary-safari + dungeon-roulette + night-terrors), `PalStats_P.pak` (epic-bosses + fast-haulers),
+legendary-safari + dungeon-roulette + night-terrors), `PalStats_P.pak` (epic-bosses + fast-haulers + tower-titans),
 `LootFiesta_P.pak` (legacy, 3 loot mods). Load a combined pak **instead of**
 its components.
 
