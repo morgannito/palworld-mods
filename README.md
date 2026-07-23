@@ -7,7 +7,7 @@
 ![Palworld 1.0](https://img.shields.io/badge/Palworld-v1.0.1.100619-blue)
 ![Server](https://img.shields.io/badge/server-Linux%20%7C%20no%20UE4SS-orange)
 
-**30 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
+**34 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
 datatable/Blueprint patches that work on the **native Linux binary** (the one
 thing UE4SS mods can't do), plus the **full reproducible pipeline** to build
 your own.
@@ -53,10 +53,14 @@ players included.
 | `EarlyLearner_P.pak` | Pals learn their attacks at half the level (5772 entries ÷2) |
 | `EpicBosses_P.pak` | All 322 bosses have ×4 HP — real 15-minute coop fights (raid bosses untouched) |
 | `LegendarySafari_P.pak` | Sky Island (lv 68-69) becomes a wild legendary reserve (8-species pool) |
+| `OmniEggMoves_P.pak` | The top-8 inheritable attacks (DragonMeteor, ThunderStorm, Inferno…) become breedable onto EVERY species |
+| `PIDFElite_P.pak` | Police forces go SWAT: HP/attack/defense ×3 — pairs with GTAPalpagos |
+| `DungeonRoulette_P.pak` | The 160 dungeon bosses are reshuffled: any dungeon can hide any of the 149 bosses (at local level) |
+| `FrequentVisitors_P.pak` | Wandering merchants visit your base from grade 1 (was 7), ×2 weight |
 
 **Combined paks** (conflict-free bundles, built with `--combine`):
 `LootComplete_P.pak` (all 5 loot mods), `WildSpawns_P.pak` (depresso-world +
-legendary-safari), `PalStats_P.pak` (epic-bosses + fast-haulers),
+legendary-safari + dungeon-roulette), `PalStats_P.pak` (epic-bosses + fast-haulers),
 `LootFiesta_P.pak` (legacy, 3 loot mods). Load a combined pak **instead of**
 its components.
 
