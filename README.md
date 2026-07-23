@@ -7,7 +7,7 @@
 ![Palworld 1.0](https://img.shields.io/badge/Palworld-v1.0.1.100619-blue)
 ![Server](https://img.shields.io/badge/server-Linux%20%7C%20no%20UE4SS-orange)
 
-**27 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
+**30 drop-in server-side mods** for Palworld dedicated servers — pure `.pak`
 datatable/Blueprint patches that work on the **native Linux binary** (the one
 thing UE4SS mods can't do), plus the **full reproducible pipeline** to build
 your own.
@@ -102,10 +102,11 @@ scripts/update.sh
 DEPLOY=yes scripts/deploy.sh dist/BetterBases_P.pak dist/BiggerBases_P.pak
 ```
 
-Shared tables to watch: `DT_ItemLotteryDataTable` (jackpot-chests,
-lightning-expeditions, boosted-relics) and `DT_PalDropItem*` (elemental-drops,
-generous-alphas, boosted-relics) — only one loaded pak per table, last one
-wins otherwise.
+Run `build.py --conflicts` for the live table → mods map. Current conflict
+groups (one loaded pak per table — use the combined paks): the 5 loot mods
+(`DT_ItemLotteryDataTable`, `DT_PalDropItem*`), epic-bosses + fast-haulers
+(`DT_PalMonsterParameter*`), depresso-world + legendary-safari
+(`DT_PalWildSpawner`).
 
 ### Deployment
 
