@@ -24,6 +24,11 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `FastHaulers_P.pak` | TransportSpeed ×2 pour les 753 pals — le portage à la base cesse d'être un supplice |
 | `FastProgress_P.pak` | Recherches labo ÷5 (travail + matériaux), chirurgie des passifs ÷5, points de technologie ÷2 |
 | `BiggerBases_P.pak` | Rayon de base 35 m → 70 m (patch CDO `BP_PalGameSetting`) + spawns/raids repoussés hors du rayon + aspiration transporteurs ×2 |
+| `FeatherStacks_P.pak` | Poids de tous les items ÷2, piles ×2 (équipements non empilables préservés) |
+| `PurePassives_P.pak` | Les passifs perdent leurs malus (Musclehead = +30 % attaque sans le -50 % craft) |
+| `CheapStatues_P.pak` | Statues de Pouvoir : moitié moins de reliques par rang |
+| `ItemShopPimped_P.pak` | Boutiques des villages : + sphères Tera, pierres IV, diamants, clés or (prix salés) |
+| `DepressoWorld_P.pak` | La zone de départ ne spawn QUE des Depresso. Zéro utilité, 100 % meme |
 
 Chaque mod patche une ou plusieurs DataTables :
 
