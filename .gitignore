@@ -7,8 +7,7 @@ tools/UassetJson/bin/
 tools/UassetJson/obj/
 tools/UAssetAPI/
 
-# Les .pak buildés contiennent des assets dérivés du jeu : distribution via releases privées uniquement
-dist/
+# dist/ commité : repo PRIVÉ (les .pak contiennent des assets dérivés du jeu — ne pas passer public avec)
 
 .DS_Store
 
