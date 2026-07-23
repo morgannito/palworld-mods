@@ -19,7 +19,8 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `MiracleFishing_P.pak` | Pêche : poissons Boss ×4, Nushi (légendaires) ×10 |
 | `ExpressFriendship_P.pak` | Seuils d'amitié ÷5 (rangs négatifs aussi : pardon plus rapide) |
 | `MassiveOutbreaks_P.pak` | Hordes d'outbreak ×3 (cap 30), niveaux +3 — 9 biomes |
-| `BetterBases_P.pak` | Bases : ouvriers ×2/niveau (cap 50), 4 bases dès lv15, zéro maladie, cultures ÷5 en temps ×3 en récolte |
+| `BetterBases_P.pak` | Bases : ouvriers ×2/niveau (cap 50), 4 bases dès lv15, zéro maladie ni pétage de plombs, cultures ÷5/×3, machines ×5, skill fruits rares ×2-3 |
+| `CheapBuilding_P.pak` | Matériaux des 498 constructions ÷5, conso électrique des machines ÷2 |
 
 Chaque mod patche une ou plusieurs DataTables :
 
