@@ -77,11 +77,52 @@ def build_mod(mod_dir):
     print(f"   OK {pak.relative_to(REPO)} ({pak.stat().st_size // 1024} Ko)")
 
 
+def build_combined(pak_name, mod_dirs):
+    """Fusionne plusieurs mods en un seul pak : patches appliqués séquentiellement
+    sur les mêmes assets (résout les conflits « dernier pak chargé gagne »)."""
+    sys.path.insert(0, str(REPO / "scripts"))
+    import palmod
+
+    mods = [load_mod(d) for d in mod_dirs]
+    print(f"== combine {'+'.join(d.name for d in mod_dirs)} -> {pak_name}_P.pak")
+
+    tables = sorted({t for m in mods for t in m.TABLES})
+    extras = sorted({t for m in mods for t in getattr(m, "EXTRA", [])})
+    assets = {t: palmod.load(cached_json(t)) for t in tables}
+    extra = {t: palmod.load(cached_json(t)) for t in extras}
+    for m in mods:
+        m.patch({t: assets[t] for t in m.TABLES}, extra)
+
+    staging = BUILD / "staging" / f"combined-{pak_name}"
+    if staging.exists():
+        shutil.rmtree(staging)
+    for table, asset in assets.items():
+        patched_json = BUILD / "patched" / f"combined-{pak_name}" / f"{Path(table).name}.json"
+        patched_json.parent.mkdir(parents=True, exist_ok=True)
+        palmod.save(asset, patched_json)
+        fromjson(patched_json, staging / f"{table}.uasset")
+
+    DIST.mkdir(exist_ok=True)
+    pak = DIST / f"{pak_name}_P.pak"
+    run(REPAK, "pack", "--version", "V11", staging, pak)
+    print(f"   OK {pak.relative_to(REPO)} ({pak.stat().st_size // 1024} Ko)")
+
+
 def main():
-    wanted = sys.argv[1:]
-    mod_dirs = sorted(d for d in (REPO / "mods").iterdir() if (d / "patch.py").exists())
-    if wanted:
-        mod_dirs = [d for d in mod_dirs if d.name in wanted]
+    args = sys.argv[1:]
+    all_dirs = sorted(d for d in (REPO / "mods").iterdir() if (d / "patch.py").exists())
+
+    if args and args[0] == "--combine":
+        if len(args) < 3:
+            sys.exit("usage: build.py --combine <NomPak> <mod> [mod ...]")
+        chosen = [d for d in all_dirs if d.name in args[2:]]
+        missing = set(args[2:]) - {d.name for d in chosen}
+        if missing:
+            sys.exit(f"mods inconnus : {', '.join(sorted(missing))}")
+        build_combined(args[1], chosen)
+        return
+
+    mod_dirs = [d for d in all_dirs if d.name in args] if args else all_dirs
     if not mod_dirs:
         sys.exit("aucun mod à builder")
     for d in mod_dirs:

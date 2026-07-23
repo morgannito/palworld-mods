@@ -13,6 +13,12 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `GenerousAlphas_P.pak` | Boss alphas : schematic légendaire garantie + quantités doublées |
 | `BoostedRelics_P.pak` | Reliques de l'Arbre-Monde ×4 (coffres et drops de pals) |
 | `CheapCrafting_P.pak` | Matériaux et temps de craft ÷5 sur les 1414 recettes |
+| `PalShopPimped_P.pak` | Les marchands de pals vendent aussi 8 légendaires (Jetragon, Frostallion…) niveau ≤50 |
+| `LightningExpeditions_P.pak` | Expéditions ÷10 en durée (30 min → 3 min), récompenses ×5 |
+| `RaidJackpot_P.pak` | Récompenses des raids de base ×10 |
+| `MiracleFishing_P.pak` | Pêche : poissons Boss ×4, Nushi (légendaires) ×10 |
+| `ExpressFriendship_P.pak` | Seuils d'amitié ÷5 (rangs négatifs aussi : pardon plus rapide) |
+| `MassiveOutbreaks_P.pak` | Hordes d'outbreak ×3 (cap 30), niveaux +3 — 9 biomes |
 
 Chaque mod patche une ou plusieurs DataTables :
 
@@ -53,7 +59,14 @@ publié pour la 1.0) est indispensable au décodage des `.uasset` unversioned.
 ```sh
 python3 scripts/build.py                # tous les mods
 python3 scripts/build.py gta-palpagos   # un seul
+# fusion en un seul pak (OBLIGATOIRE si deux mods patchent la même table) :
+python3 scripts/build.py --combine LootFiesta jackpot-chests lightning-expeditions boosted-relics
 ```
+
+Tables partagées à surveiller : `DT_ItemLotteryDataTable` (jackpot-chests,
+lightning-expeditions, boosted-relics) et `DT_PalDropItem*` (elemental-drops,
+generous-alphas, boosted-relics) — un seul pak chargé par table, sinon le
+dernier écrase les autres.
 
 Sortie dans `dist/` (gitignoré : les paks contiennent des assets dérivés du jeu).
 
