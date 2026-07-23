@@ -117,14 +117,21 @@ DEPLOY=yes scripts/deploy.sh dist/BetterBases_P.pak dist/BiggerBases_P.pak
 
 Run `build.py --conflicts` for the live table → mods map. Current conflict
 groups (one loaded pak per table — use the combined paks): the 5 loot mods
-(`DT_ItemLotteryDataTable`, `DT_PalDropItem*`), epic-bosses + fast-haulers
-(`DT_PalMonsterParameter*`), depresso-world + legendary-safari
-(`DT_PalWildSpawner`).
+(`DT_ItemLotteryDataTable`, `DT_PalDropItem*`); epic-bosses + fast-haulers +
+tower-titans (`DT_PalMonsterParameter*`); depresso-world + legendary-safari +
+dungeon-roulette + night-terrors (`DT_PalWildSpawner`).
 
 ### Deployment
 
 One pak per table family. Copy to `PalServer/Pal/Content/Paks/~mods/`, chown
 to the service user, clean restart. Server-side only.
+
+## More docs
+
+- **[Install guide](docs/INSTALL.md)** ([FR](docs/INSTALL.fr.md)) — every setup, with FAQ
+- **[Test plan](docs/test-plan.md)** — boot-test procedure + in-game checklist
+- **[Mod analysis](docs/mod-analysis/)** — reverse-engineered reports of popular third-party mods (`diff_mod.py`)
+- **[Changelog](CHANGELOG.md)** — what shipped in each release
 
 ## Hard-earned gotchas
 

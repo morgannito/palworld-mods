@@ -85,6 +85,13 @@ Prérequis, build, verify, workflow post-MAJ et déploiement : voir le
 [docs/mod-analysis/](docs/mod-analysis/). Plan de test :
 [docs/test-plan.md](docs/test-plan.md).
 
+## Plus de docs
+
+- **[Guide d'installation](docs/INSTALL.fr.md)** ([EN](docs/INSTALL.md)) — tous les setups, avec FAQ
+- **[Plan de test](docs/test-plan.md)** — boot-test + checklist in-game
+- **[Analyses de mods](docs/mod-analysis/)** — rétro-ingénierie des mods tiers populaires
+- **[Changelog](CHANGELOG.md)** — le contenu de chaque release
+
 ## Licence & disclaimer
 
 Scripts et patches : **MIT** (voir LICENSE). Les `.pak` de `dist/`
