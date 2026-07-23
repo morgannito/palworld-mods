@@ -1,0 +1,13 @@
+# Assets du jeu (copyright Pocketpair) — extraits localement, jamais commités
+gamedata/
+
+# Artefacts de build
+build/
+tools/UassetJson/bin/
+tools/UassetJson/obj/
+tools/UAssetAPI/
+
+# Les .pak buildés contiennent des assets dérivés du jeu : distribution via releases privées uniquement
+dist/
+
+.DS_Store
