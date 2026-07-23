@@ -48,8 +48,10 @@ Connect with FTP/SFTP from your host's panel and upload the paks to
 `.../PalServer/Pal/Content/Paks/~mods/` (create the `~mods` folder — the name
 matters, tilde included). Restart the server from the panel.
 
-⚠️ Some managed hosts wipe unknown files on update/validate. If your mods
-vanish after a game update, re-upload them.
+⚠️ Keep local copies of your paks: SteamCMD's `validate` leaves the `~mods`
+folder alone (it's outside Steam's manifest), but some host panels do full
+reinstalls on game updates. If your mods vanish after an update, re-upload —
+after checking they've been rebuilt for the new game version.
 
 ### Windows dedicated server
 
@@ -81,9 +83,11 @@ ls -l /proc/$PID/fd | grep -c '~mods'   # ≈ number of loaded paks
 
 ## 4. Uninstall / rollback
 
-Delete the pak(s) from `~mods/` and restart. Saves are untouched — these mods
-only change game rules, not your world data. (Pals obtained thanks to a mod —
-e.g. legendaries from the safari — stay yours.)
+Delete the pak(s) from `~mods/` and restart. These mods don't write to your
+save files and add no new entities (only vanilla values and references), so
+removal is designed to be safe — pals or items obtained thanks to a mod stay
+yours. That said, **back up `Pal/Saved/` before any change**: it's the
+standard practice the community and Pocketpair recommend around mods.
 
 ## FAQ
 
@@ -91,6 +95,12 @@ e.g. legendaries from the safari — stay yours.)
 Paks built on old tables override the update's changes and may misbehave.
 Remove them, wait for a rebuilt release (or rebuild yourself:
 `scripts/update.sh`), then re-install.
+
+**A MAJOR game update is coming (like 1.0 was).**
+Follow [Pocketpair's official guidance](https://www.pcgamer.com/games/survival-crafting/palworld-studio-says-delete-your-old-mods-before-the-1-0-release-disabling-them-is-not-enough/):
+**delete** mods before updating ("disabling them is not enough"), back up
+saves, update clean, then re-install rebuilt mods. Major updates can run save
+conversions — you want those to happen on vanilla data.
 
 **Do players need the same version as the server?**
 They need the same *game* version as the server (Steam handles that), but

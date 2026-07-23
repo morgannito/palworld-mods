@@ -47,8 +47,11 @@ Connecte-toi en FTP/SFTP depuis le panel et dépose les paks dans
 `.../PalServer/Pal/Content/Paks/~mods/` (crée le dossier `~mods` — le nom
 compte, tilde inclus). Restart depuis le panel.
 
-⚠️ Certains hébergeurs purgent les fichiers inconnus lors des mises à jour.
-Si tes mods disparaissent après une MAJ du jeu, re-dépose-les.
+⚠️ Garde des copies locales de tes paks : le `validate` de SteamCMD laisse
+`~mods` tranquille (hors manifest Steam), mais certains panels d'hébergeurs
+font des réinstallations complètes lors des MAJ. Si tes mods disparaissent,
+re-dépose-les — après avoir vérifié qu'ils sont rebuilés pour la nouvelle
+version du jeu.
 
 ### Serveur dédié Windows
 
@@ -80,9 +83,12 @@ ls -l /proc/$PID/fd | grep -c '~mods'   # ≈ nombre de paks chargés
 
 ## 4. Désinstaller / rollback
 
-Supprime le(s) pak(s) de `~mods/` et restart. Les saves ne sont pas touchées
-— ces mods changent les règles du jeu, pas les données de ton monde. (Les
-pals obtenus grâce à un mod — ex. légendaires du safari — restent à toi.)
+Supprime le(s) pak(s) de `~mods/` et restart. Ces mods n'écrivent pas dans
+tes saves et n'ajoutent aucune entité nouvelle (uniquement des valeurs et des
+références vanilla) : le retrait est conçu pour être sûr — les pals et items
+obtenus grâce à un mod restent à toi. Cela dit, **sauvegarde `Pal/Saved/`
+avant tout changement** : c'est la pratique standard recommandée par la
+communauté et Pocketpair autour des mods.
 
 ## FAQ
 
@@ -90,6 +96,13 @@ pals obtenus grâce à un mod — ex. légendaires du safari — restent à toi.
 Des paks bâtis sur les anciennes tables écrasent les nouveautés de la MAJ.
 Retire-les, attends une release rebuilée (ou rebuild toi-même :
 `scripts/update.sh`), puis réinstalle.
+
+**Une GROSSE MAJ arrive (comme l'était la 1.0).**
+Suis la [consigne officielle Pocketpair](https://www.pcgamer.com/games/survival-crafting/palworld-studio-says-delete-your-old-mods-before-the-1-0-release-disabling-them-is-not-enough/) :
+**supprime** les mods avant la MAJ (« les désactiver ne suffit pas »),
+sauvegarde tes saves, mets à jour proprement, puis réinstalle des mods
+rebuilés. Les grosses MAJ convertissent parfois les saves — cette conversion
+doit se faire sur des données vanilla.
 
 **Les joueurs doivent-ils avoir la même version que le serveur ?**
 La même version du *jeu* (Steam gère), mais jamais les mods eux-mêmes.
