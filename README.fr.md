@@ -2,6 +2,7 @@
 
 # palworld-mods
 
+![CI](https://github.com/morgannito/palworld-mods/actions/workflows/ci.yml/badge.svg)
 ![GitHub release](https://img.shields.io/github/v/release/morgannito/palworld-mods)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![Palworld 1.0](https://img.shields.io/badge/Palworld-v1.0.1.100619-blue)

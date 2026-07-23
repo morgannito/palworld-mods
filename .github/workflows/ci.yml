@@ -1,0 +1,19 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lint mods (contract, uniqueness, README coverage)
+        run: python3 scripts/lint.py
+      - name: Shell scripts syntax
+        run: bash -n scripts/update.sh scripts/deploy.sh
