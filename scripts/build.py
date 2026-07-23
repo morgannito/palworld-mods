@@ -43,9 +43,16 @@ def load_mod(mod_dir):
 
 
 def cached_json(table):
-    """Cache read-only des tables sources en JSON."""
+    """Cache read-only des tables sources en JSON, invalidé si gamedata change
+    (après une MAJ du jeu, un cache périmé bâtirait silencieusement sur les
+    anciennes tables)."""
     cache = BUILD / "json-cache" / f"{table.replace('/', '_')}.json"
-    if not cache.exists():
+    src_mtime = max(
+        (GAMEDATA / f"{table}{ext}").stat().st_mtime
+        for ext in (".uasset", ".uexp")
+        if (GAMEDATA / f"{table}{ext}").exists()
+    )
+    if not cache.exists() or cache.stat().st_mtime < src_mtime:
         tojson(table, cache)
     return cache
 
@@ -108,9 +115,29 @@ def build_combined(pak_name, mod_dirs):
     print(f"   OK {pak.relative_to(REPO)} ({pak.stat().st_size // 1024} Ko)")
 
 
+def print_conflicts(all_dirs):
+    """Carte table → mods : deux mods sur la même table = paks incompatibles
+    entre eux (fusionner via --combine avant déploiement)."""
+    by_table = {}
+    for d in all_dirs:
+        mod = load_mod(d)
+        for t in mod.TABLES:
+            by_table.setdefault(t, []).append(d.name)
+    conflicts = {t: m for t, m in by_table.items() if len(m) > 1}
+    if not conflicts:
+        print("aucun conflit de table entre les mods")
+        return
+    for t, m in sorted(conflicts.items()):
+        print(f"⚠ {t}\n   partagée par : {', '.join(m)}")
+
+
 def main():
     args = sys.argv[1:]
     all_dirs = sorted(d for d in (REPO / "mods").iterdir() if (d / "patch.py").exists())
+
+    if args and args[0] == "--conflicts":
+        print_conflicts(all_dirs)
+        return
 
     if args and args[0] == "--combine":
         if len(args) < 3:

@@ -32,3 +32,14 @@ def patch(assets, extra):
             stack = int(get(r, "MaxStackCount"))
             if 1 < stack < STACK_CAP:
                 set_(a, r, "MaxStackCount", min(STACK_CAP, stack * STACK_MULT))
+
+
+def verify(assets):
+    fails = []
+    a = assets[TABLES[0]]
+    fur = next(r for r in rows(a) if r["Name"] == "FurHelmet")
+    if float(get(fur, "Weight")) != 2.5:
+        fails.append(f"FurHelmet Weight = {get(fur, 'Weight')}, attendu 2.5")
+    if int(get(fur, "MaxStackCount")) != 1:
+        fails.append("FurHelmet ne doit pas devenir empilable")
+    return fails

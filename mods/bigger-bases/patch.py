@@ -38,3 +38,8 @@ def patch(assets, extra):
             continue  # "+0" : rangs sans aspiration, inchangés
         if v > 0:
             elem["Value"] = v * 2
+
+
+def verify(assets):
+    got = float(bp_prop(assets[TABLES[0]], "BaseCampAreaRange")["Value"])
+    return [] if got == 3500.0 * RADIUS_MULT else [f"BaseCampAreaRange = {got}, attendu {3500.0 * RADIUS_MULT}"]

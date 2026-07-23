@@ -1,3 +1,5 @@
+*[English version](README.en.md)*
+
 # palworld-mods
 
 Mods datatable server-side pour Palworld 1.0 (serveur dédié Linux, paks purs `~mods`,
