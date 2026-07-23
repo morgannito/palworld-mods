@@ -67,3 +67,18 @@ def clone_row(asset, row, new_name):
 def enum_short(value):
     """'EPalElementType::Fire' -> 'Fire'"""
     return str(value).split("::")[-1]
+
+
+def bp_defaults(asset):
+    """Data du Class Default Object d'un Blueprint (export Default__*)."""
+    for e in asset["Exports"]:
+        if str(e.get("ObjectName", "")).startswith("Default__"):
+            return e["Data"]
+    raise KeyError("aucun export Default__ (CDO) dans cet asset")
+
+
+def bp_prop(asset, name):
+    for p in bp_defaults(asset):
+        if p["Name"] == name:
+            return p
+    raise KeyError(f"prop {name} absente du CDO")

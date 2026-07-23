@@ -23,6 +23,7 @@ zéro UE4SS). Pipeline reproductible : extraction → JSON → patch Python → 
 | `CheapBuilding_P.pak` | Matériaux des 498 constructions ÷5, conso électrique ÷2, snap de connexion ×2.5 (adieu « not connected ») |
 | `FastHaulers_P.pak` | TransportSpeed ×2 pour les 753 pals — le portage à la base cesse d'être un supplice |
 | `FastProgress_P.pak` | Recherches labo ÷5 (travail + matériaux), chirurgie des passifs ÷5, points de technologie ÷2 |
+| `BiggerBases_P.pak` | Rayon de base 35 m → 70 m (patch CDO `BP_PalGameSetting`) + spawns/raids repoussés hors du rayon + aspiration transporteurs ×2 |
 
 Chaque mod patche une ou plusieurs DataTables :
 
@@ -51,7 +52,7 @@ cargo install --git https://github.com/trumank/repak --rev v0.2.3 repak_cli
 git clone --depth 1 https://github.com/atenfyr/UAssetAPI tools/UAssetAPI
 (cd tools/UassetJson && PATH="$HOME/.dotnet:$PATH" dotnet build -c Release)
 # datatables du jeu (depuis le pak du serveur, non commitées — copyright Pocketpair)
-repak unpack --include "Pal/Content/Pal/DataTable/**" --output gamedata Pal-LinuxServer.pak
+repak unpack --include "Pal/Content/Pal/DataTable/**" --include "Pal/Content/Pal/Blueprint/System/BP_PalGameSetting.*" --output gamedata Pal-LinuxServer.pak
 ```
 
 Le fichier `mappings/Mappings.usmap` (commit épinglé
@@ -92,6 +93,10 @@ puis restart propre. Server-side only : rien à installer côté clients.
   précédent), sérialisée en string — ne pas convertir en float, ne pas toucher.
 - **Roundtrip validé byte-identique** (sha256) avant tout patch : si UAssetAPI ne
   reproduit pas l'original à l'identique, rien d'autre n'est fiable.
+- **BP patch (bigger-bases)** : le roundtrip d'un Blueprint n'est pas byte-identique
+  côté header `.uasset` (UAssetAPI re-normalise NameMap + offsets, de façon
+  cohérente) — le `.uexp` (données) reste identique ; c'est la même mécanique que
+  les mods UAssetGUI publiés. Valider en jeu après chaque MAJ.
 - Après une **MAJ du jeu** : re-extraire `gamedata/`, mettre à jour le `.usmap`,
   rebuilder — un pak bâti sur d'anciennes tables écrase les nouveautés de la MAJ.
 
