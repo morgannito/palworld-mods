@@ -7,7 +7,7 @@ tools/UassetJson/bin/
 tools/UassetJson/obj/
 tools/UAssetAPI/
 
-# dist/ commité : repo PRIVÉ (les .pak contiennent des assets dérivés du jeu — ne pas passer public avec)
+# dist/ commité : distribution des .pak à la façon Nexus/CurseForge (voir Licence du README)
 
 .DS_Store
 

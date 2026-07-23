@@ -110,7 +110,10 @@ puis restart propre. Server-side only : rien à installer côté clients.
 - Après une **MAJ du jeu** : re-extraire `gamedata/`, mettre à jour le `.usmap`,
   rebuilder — un pak bâti sur d'anciennes tables écrase les nouveautés de la MAJ.
 
-## Licence
+## Licence & disclaimer
 
-Scripts et patches : MIT. Les assets du jeu (gamedata/, dist/) appartiennent à
-Pocketpair et ne sont pas distribués dans ce repo.
+Scripts et patches : **MIT**. Les `.pak` de `dist/` contiennent des datatables
+du jeu modifiées — ils sont distribués selon l'usage établi de la communauté
+de modding Palworld (Nexus/CurseForge), gratuitement et sans affiliation avec
+Pocketpair. Palworld © Pocketpair, Inc. Les assets bruts (`gamedata/`) ne sont
+jamais commités. Cible : Palworld **v1.0.1.100619** — rebuilder après toute MAJ.
