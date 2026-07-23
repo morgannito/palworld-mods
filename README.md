@@ -14,10 +14,15 @@ your own.
 
 ## Quick start
 
-Grab the paks from [Releases](https://github.com/morgannito/palworld-mods/releases),
-drop the ones you want into `PalServer/Pal/Content/Paks/~mods/` (create the
-folder), restart the server. Nothing to install on clients — console crossplay
-players included.
+**→ [Full install guide](docs/INSTALL.md)** (Linux, Docker, rented hosts,
+Windows, singleplayer — with FAQ). *[Guide français](docs/INSTALL.fr.md).*
+
+Short version: grab the paks from
+[Releases](https://github.com/morgannito/palworld-mods/releases), drop the
+ones you want into `PalServer/Pal/Content/Paks/~mods/` (create the folder),
+restart the server. Nothing to install on clients — console crossplay players
+included. **One pak per game table** — use the combined paks below when mods
+share tables.
 
 ## The mods
 
